@@ -53,12 +53,12 @@ const validateInput = function (input) {
         return input;
     }
     };
-const makeGuess = function(inputLetter) {
-    inputLetter = inputLetter.toUpperCase();
-    if (guessedLetters.includes(inputLetter)) {
+const makeGuess = function(inputLetter) { // function that makes sure that the input letter is not entered again.
+    inputLetter = inputLetter.toUpperCase(); // letter converted to uppercase if you entered in lowercase it converts it for the console
+    if (guessedLetters.includes(inputLetter)) { //checks if the array of guesses already has a letter which user entered.
         message.innerText = "You have already guessed that letter so try again."
     } else {
-        guessedLetters.push(inputLetter);
+        guessedLetters.push(inputLetter); //if the letter is not entered already use push method to include it in the guessed array.
         console.log(guessedLetters);
     }
 }
