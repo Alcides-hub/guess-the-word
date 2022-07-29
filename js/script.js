@@ -146,7 +146,7 @@ const startOver = function () {
     remainingGuessesElement.classList.add("hide");
     guessedLettersElement.classList.add("hide");
     playAgainButton.classList.remove("hide");
-}
+};
 
 playAgainButton.addEventListener("click", function () {
     message.classList.remove("win");
@@ -162,4 +162,4 @@ playAgainButton.addEventListener("click", function () {
     guessedLettersElement.classList.remove("hide");
     playAgainButton.classList.add("hide");
     
-})
+});
