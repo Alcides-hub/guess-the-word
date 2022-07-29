@@ -16,17 +16,17 @@ const message = document.querySelector(".message");
 const playAgainButton = document.querySelector(".play-again");
 
 let word = "magnolia";
-const guessedLetters = []; // guessedLetters is an empty array for storing all the letters the player guesses.
+let guessedLetters = []; // guessedLetters is an empty array for storing all the letters the player guesses.
 let remainingGuesses = 8; // important to state right at the beginning the limits of the game, a global variable. You could change the number of guesses to make it harder or easier.
 
-const getWord = async function () {
+const getWord = async function () { //create an async function to fetch data from a file.
     const response = await fetch ("https://gist.githubusercontent.com/skillcrush-curriculum/7061f1d4d3d5bfe47efbfbcfe42bf57e/raw/5ffc447694486e7dea686f34a6c085ae371b43fe/words.txt");
-    const words = await response.text();
-    const wordArray = words.split("\n");
+    const words = await response.text(); //we are not using json since it's a text file.
+    const wordArray = words.split("\n"); //to select a random word, you need to first transform the data into an array and each is separated by a new line.
     // console.log(wordArray);
     // console.log(words);
-    const randomIndex = Math.floor(Math.random()* wordArray.length); 
-    word = wordArray[randomIndex].trim();
+    const randomIndex = Math.floor(Math.random()* wordArray.length); //create a variable to pull a random index from wordArray.
+    word = wordArray[randomIndex].trim(); // pull a random word from the array and remove any extra whitespace around the word using trim function.
     placeholder(word); //call the function with word as paramenter.   
 };
 
@@ -125,6 +125,7 @@ const updateGuessRemaining = function (guess) { //function for counting guesses 
 
     if (remainingGuesses === 0) { //this checks the remaning number of guesses and provides a message that once the remaining hits 0 or 1, a message must be printed to warn the user. If number is higher than 0 or 1, a message must be logged out as well.
         message.innerHTML = `The game is over! the word was <span class="highlight">${word}</span>.`;
+        startOver();
     } else if (remainingGuesses === 1) {
         guessDisplay.innerText = `${remainingGuesses} guess`; //updates the span for number of guessedLetters.
     } else {
@@ -136,6 +137,29 @@ const checkPlayerWin = function () { //function that checks if the player has wo
     if (word.toUpperCase() === emptyParagraph.innerText) {
         message.classList.add("win"); // add class win to html with css attributes.
         message.innerHTML = `<p class="highlight">You guessed the word! Congrats!</p>`;
+        startOver();
     } //add HTML code to word in progress class. 
 };
 
+const startOver = function () {
+    guessButton.classList.add("hide");
+    remainingGuessesElement.classList.add("hide");
+    guessedLettersElement.classList.add("hide");
+    playAgainButton.classList.remove("hide");
+}
+
+playAgainButton.addEventListener("click", function () {
+    message.classList.remove("win");
+    guessedLetters = [];
+    remainingGuesses = 8;
+    guessDisplay.innerText = `${remainingGuesses} guess`;
+    guessedLettersElement.innerHTML = "";
+    message.innerText = "";
+    getWord();
+
+    guessButton.classList.remove("hide");
+    remainingGuessesElement.classList.remove("hide");
+    guessedLettersElement.classList.remove("hide");
+    playAgainButton.classList.add("hide");
+    
+})
